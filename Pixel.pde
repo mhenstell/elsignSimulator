@@ -6,8 +6,13 @@ class Pixel
   float w;
   float h;
   int sides;
+  color c;
   
-  Pixel(float x_, float y_, float z_, float w_, float h_, int sides_) {
+  float DEFAULT_WIDTH = 3;
+  float DEFAULT_HEIGHT = 10;
+  int DEFAULT_SIDES = 20;
+  
+  public Pixel(float x_, float y_, float z_, float w_, float h_, int sides_) {
     x = x_;
     y = y_;
     z = z_;
@@ -16,13 +21,30 @@ class Pixel
     sides = sides_;
   }
   
+  public Pixel(int x_, int y_) {
+    x = int(x_);
+    y = int(y_);
+    w = DEFAULT_WIDTH;
+    h = DEFAULT_HEIGHT;
+    sides = DEFAULT_SIDES;
+    c = color(255, 255, 255);
+  }
+  
   void draw() {
+    fill(c);
     
     pushMatrix();
-      translate(x, y, z);
+      translate(x * 10, 0, y * 10);
       cylinder(w, h, sides);
     popMatrix();
  
+  }
+  
+  void update(color c_) {
+     c = c_;
+     if (c == color(0,0,0)) {
+       c = color(100,100,100); 
+     }
   }
   
   /**
