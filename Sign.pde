@@ -6,7 +6,6 @@ class Sign
  int w;
  int h;
  
- 
  Sign(int w_, int h_) {
    w = w_;
    h = h_; 
@@ -19,12 +18,13 @@ class Sign
    
    for (int y = 0; y < h; y++) {
      for (int x = 0; x < w; x++) {
-     
-        pixels.add(new Pixel(x, y));
+       
+        float cylheight = 20 - (sin((TWO_PI / w) * x)) * 10;
+        
+        pixels.add(new Pixel(x, y, cylheight));
      } 
    }
  }
- 
  
  void draw() {
    
@@ -42,9 +42,9 @@ class Sign
  }
  
  void update(color[] imageData) {
+
     for (int i = 0; i < pixels.size(); i++) {
       pixels.get(i).update(imageData[i]);
     }
- }
-  
+  }
 }

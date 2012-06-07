@@ -30,6 +30,15 @@ class Pixel
     c = color(255, 255, 255);
   }
   
+  public Pixel(int x_, int y_, float h_) {
+    x = int(x_);
+    y = int(y_);
+    w = DEFAULT_WIDTH;
+    h = h_;
+    sides = DEFAULT_SIDES;
+    c = color(255, 255, 255);
+  }
+  
   void draw() {
     fill(c);
     
@@ -42,9 +51,7 @@ class Pixel
   
   void update(color c_) {
      c = c_;
-     if (c == color(0,0,0)) {
-       c = color(100,100,100); 
-     }
+     
   }
   
   /**

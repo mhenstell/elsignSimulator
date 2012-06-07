@@ -6,15 +6,16 @@ import javax.media.opengl.GL;
 import hypermedia.net.*;
 import java.util.concurrent.*;
 
-
 LinkedBlockingQueue newImageQueue;
-
 
 PeasyCam pCamera;
 
 Sign sign;
 
 UDP udp;
+
+int SIGN_WIDTH = 50;
+int SIGN_HEIGHT = 6;
 
 void setup() {
   size(1024, 850, OPENGL);
@@ -36,7 +37,7 @@ void setup() {
 
   pCamera.setWheelScale(0.05);
   
-  sign = new Sign(10, 10);
+  sign = new Sign(SIGN_WIDTH, SIGN_HEIGHT);
   
   udp = new UDP(this, 58082);
   udp.listen(true);
@@ -56,19 +57,19 @@ void receive(byte[] data, String ip, int port) {
     return;
   }
 
-//  if (data.length != strips*lights_per_strip*3 + 1) {
-//    println("Packet size mismatch. Expected many, got " + data.length);
-//    return;
-//  }
+  if (data.length != (SIGN_WIDTH * SIGN_HEIGHT) * 3 + 1) {
+    println("Packet size mismatch. Expected many, got " + data.length);
+    return;
+  }
 
   if (newImageQueue.size() > 0) {
     println("Buffer full, dropping frame!");
     return;
   }
 
-  color[] newImage = new color[100];
+  color[] newImage = new color[SIGN_WIDTH * SIGN_HEIGHT];
   
-  for (int i=0; i< 100; i++) {
+  for (int i=0; i< SIGN_WIDTH * SIGN_HEIGHT; i++) {
     newImage[i] = color(convertByte(data[i*3 + 1]), 
     convertByte(data[i*3 + 2]), 
     convertByte(data[i*3 + 3]));
